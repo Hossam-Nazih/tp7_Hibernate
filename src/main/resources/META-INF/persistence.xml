@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.2">
+  <!-- Unité de persistence utilisée par JpaUtil ; transactions gérées à la main (pas de serveur JEE) -->
+  <persistence-unit name="reservationPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <!-- Toutes les entités gérées doivent être déclarées ici -->
+    <class>com.example.model.Salle</class>
+    <class>com.example.model.Utilisateur</class>
+    <class>com.example.model.Reservation</class>
+    <properties>
+      <!-- Base H2 stockée dans ./data ; AUTO_SERVER=TRUE permet de l'ouvrir en même temps depuis la console H2 ou IntelliJ -->
+      <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+      <property name="javax.persistence.jdbc.url" value="jdbc:h2:file:./data/reservationdb;AUTO_SERVER=TRUE" />
+      <property name="javax.persistence.jdbc.user" value="sa" />
+      <property name="javax.persistence.jdbc.password" value="" />
+      <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+      <!-- Les tables sont recréées à chaque lancement (les noms de salle sont uniques, "update" ferait échouer une 2e exécution) -->
+      <property name="hibernate.hbm2ddl.auto" value="create" />
+      <!-- Affiche le SQL pour voir la clause "where ... and version=?" du verrouillage optimiste -->
+      <property name="hibernate.show_sql" value="true" />
+      <property name="hibernate.format_sql" value="true" />
+    </properties>
+  </persistence-unit>
+</persistence>
